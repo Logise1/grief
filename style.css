@@ -1,0 +1,497 @@
+:root {
+  --bg-color: #030303;
+  --text-primary: #f0f0f0;
+  --text-secondary: #888888;
+  --accent-color: #ffffff;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(10, 10, 10, 0.65);
+  --shadow-color: rgba(0, 0, 0, 0.8);
+  
+  /* Stage Colors */
+  --color-denial: #a0a0a0;
+  --color-anger: #e74c3c;
+  --color-bargaining: #e0a96d;
+  --color-depression: #3498db;
+  --color-acceptance: #f1c40f;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--text-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Film grain effect */
+#noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Screen vignette for atmospheric lighting */
+#vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 30%, rgba(0, 0, 0, 0.85) 90%, rgba(0, 0, 0, 0.98) 100%);
+  pointer-events: none;
+  z-index: 999;
+  transition: background 2s ease;
+}
+
+/* Main Container fitting the game viewport */
+#app-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.9);
+  background-color: #000;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* UI Screens (Start and End Screens) */
+.ui-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  background-color: rgba(3, 3, 3, 0.95);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.5s ease, background-color 2s ease;
+}
+
+.ui-screen.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.screen-content {
+  text-align: center;
+  max-width: 600px;
+  padding: 40px;
+  border-radius: 4px;
+  background: radial-gradient(circle, rgba(15, 15, 15, 0.5) 0%, transparent 100%);
+}
+
+.game-title {
+  font-family: 'Cinzel', serif;
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: 0.8rem;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  transition: text-shadow 2s ease, color 2s ease;
+}
+
+.game-title.glow {
+  color: #fff;
+  text-shadow: 0 0 25px rgba(241, 196, 15, 0.5), 0 0 50px rgba(241, 196, 15, 0.2);
+}
+
+.game-subtitle {
+  font-size: 0.95rem;
+  font-weight: 300;
+  letter-spacing: 0.3rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 50px;
+}
+
+.quotes-carousel {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.quote {
+  font-family: 'Cinzel', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  opacity: 0.85;
+  transition: opacity 1s ease;
+}
+
+.menu-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.menu-buttons .cinematic-btn {
+  margin-bottom: 0;
+}
+
+.cinematic-btn {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--text-primary);
+  padding: 14px 40px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.25rem;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  margin-bottom: 40px;
+}
+
+.cinematic-btn:hover {
+  background: var(--text-primary);
+  color: var(--bg-color);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.cinematic-btn:active {
+  transform: translateY(0);
+}
+
+.controls-guide {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.05rem;
+}
+
+.control-key {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.control-key span {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.7rem;
+}
+
+/* In-Game GUI Overlay */
+#game-gui {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  right: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 50;
+  pointer-events: none;
+  font-family: 'Montserrat', sans-serif;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+#game-gui.active {
+  opacity: 1;
+}
+
+.gui-left, .gui-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.gui-stage-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  color: var(--text-primary);
+  transition: color 1s ease;
+}
+
+#gui-mechanic-tip {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.05rem;
+}
+
+/* Ability Bar for Special Mechanics */
+#ability-bar-container {
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+#ability-bar {
+  height: 100%;
+  width: 100%;
+  background: var(--accent-color);
+  transition: width 0.1s linear, background-color 1s ease;
+}
+
+#ability-bar-label {
+  position: absolute;
+  top: -15px;
+  left: 0;
+  font-size: 0.55rem;
+  letter-spacing: 0.1rem;
+  color: var(--text-secondary);
+  font-weight: bold;
+}
+
+/* Cinematic Dialogue Overlay */
+#dialogue-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 80;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+#dialogue-container.active {
+  opacity: 1;
+  transform: scale(1.0);
+  pointer-events: auto;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), background-color 0.6s ease;
+}
+
+#dialogue-box {
+  width: 600px;
+  max-width: 90%;
+  background: rgba(4, 4, 4, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 20px 35px;
+  border-radius: 6px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+
+#dialogue-text {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  line-height: 1.7;
+  letter-spacing: 0.08rem;
+  color: var(--text-primary);
+  min-height: 45px;
+  white-space: pre-wrap;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+#dialogue-prompt {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.15rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  text-align: right;
+  animation: pulse 2s infinite;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+#dialogue-prompt.visible {
+  opacity: 1;
+}
+
+/* Stage Announcement Banner */
+#stage-banner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#stage-banner.active {
+  opacity: 1;
+}
+
+#stage-number {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.4rem;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+#stage-name {
+  font-family: 'Cinzel', serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: 0.9rem;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  transition: color 1s ease;
+}
+
+#stage-desc {
+  font-size: 0.8rem;
+  font-weight: 300;
+  letter-spacing: 0.15rem;
+  color: var(--text-secondary);
+  max-width: 450px;
+  line-height: 1.6;
+}
+
+#end-screen {
+  background-color: #000000 !important;
+}
+
+.credits-scroll {
+  max-height: 250px;
+  overflow-y: hidden;
+  margin: 30px auto;
+  position: relative;
+  max-width: 500px;
+}
+
+.credits-content {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  transform: translateY(250px);
+}
+
+#end-screen.active .credits-content {
+  animation: roll-credits 28s linear forwards;
+}
+
+@keyframes roll-credits {
+  0% {
+    transform: translateY(250px);
+  }
+  100% {
+    transform: translateY(-460px);
+  }
+}
+
+.credits-section {
+  margin-bottom: 25px;
+}
+
+.credits-section h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.15rem;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.credits-section p {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-weight: 300;
+  letter-spacing: 0.05rem;
+}
+
+/* Utilities / Animations */
+.hidden {
+  display: none !important;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.3; }
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+  .game-title {
+    font-size: 2.8rem;
+    letter-spacing: 0.5rem;
+  }
+  #stage-name {
+    font-size: 2.5rem;
+    letter-spacing: 0.6rem;
+  }
+  #dialogue-box {
+    padding: 18px 25px;
+  }
+  #dialogue-text {
+    font-size: 0.95rem;
+  }
+}

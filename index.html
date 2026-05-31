@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>G R I E F — A Cinematic Journey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Atmospheric overlay background -->
+  <div id="noise-overlay"></div>
+  <div id="vignette"></div>
+
+  <!-- Main Container -->
+  <div id="app-container">
+    
+    <!-- Cinematic Opening/Start Screen -->
+    <div id="start-screen" class="ui-screen active">
+      <div class="screen-content">
+        <h1 class="game-title">G R I E F</h1>
+        <p class="game-subtitle">A journey through the five stages of loss</p>
+        
+        <div class="quotes-carousel">
+          <p class="quote">"The only way out is through."</p>
+        </div>
+
+        <div class="menu-buttons">
+          <button id="start-btn" class="cinematic-btn">BEGIN THE JOURNEY</button>
+          <button id="continue-btn" class="cinematic-btn hidden">CONTINUE JOURNEY</button>
+          <a href="bts.html" id="bts-btn" class="cinematic-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">BEHIND THE SCENES</a>
+        </div>
+        
+        <div class="controls-guide">
+          <div class="control-key"><span>A</span> / <span>D</span> or <span>←</span> / <span>→</span> to Move</div>
+          <div class="control-key"><span>W</span> / <span>Space</span> / <span>↑</span> to Jump</div>
+          <div class="control-key"><span>R</span> to Restart Stage</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cinematic Narrative Dialogue Overlay -->
+    <div id="dialogue-container" class="hidden">
+      <div id="dialogue-box">
+        <div id="dialogue-text"></div>
+        <div id="dialogue-prompt">Press Space to continue...</div>
+      </div>
+    </div>
+
+    <!-- Stage Title Overlay -->
+    <div id="stage-banner" class="hidden">
+      <h2 id="stage-number">STAGE 1</h2>
+      <h1 id="stage-name">DENIAL</h1>
+      <p id="stage-desc">The mind constructs walls to shield itself from reality.</p>
+    </div>
+
+    <!-- In-Game GUI -->
+    <div id="game-gui" class="hidden">
+      <div class="gui-left">
+        <span class="gui-stage-label" id="gui-stage-name">Stage: Denial</span>
+      </div>
+      <div class="gui-right">
+        <!-- Interactive mechanic display -->
+        <span id="gui-mechanic-tip">Glitch platforms appear nearby</span>
+      </div>
+      
+      <!-- Sacrificial energy bar for Bargaining stage, or dash charge for Anger -->
+      <div id="ability-bar-container" class="hidden">
+        <div id="ability-bar"></div>
+        <span id="ability-bar-label">ENERGY</span>
+      </div>
+    </div>
+
+    <!-- Game Canvas (Rendered offscreen) -->
+    <canvas id="game-canvas" style="display: none;"></canvas>
+    <!-- WebGL Display Canvas -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Outro / Acceptance Credits Screen -->
+    <div id="end-screen" class="ui-screen">
+      <div class="screen-content">
+        <h1 class="game-title glow" style="font-size: 2.8rem; margin-bottom: 5px;">HOPE & BEYOND</h1>
+        <p class="game-subtitle" style="margin-bottom: 20px;">"It is not about forgetting. It is about learning to live with the empty space."</p>
+        
+        <div class="credits-scroll">
+          <div class="credits-content">
+            <div class="credits-section">
+              <h3>CREATOR</h3>
+              <p>Logise</p>
+            </div>
+            <div class="credits-section">
+              <h3>DEVELOPMENT & CODING</h3>
+              <p>Logise</p>
+            </div>
+            <div class="credits-section">
+              <h3>SOUND & MUSIC SYNTHESIS</h3>
+              <p>Web Audio API Procedural Synthesizers</p>
+            </div>
+            <div class="credits-section">
+              <h3>ATMOSPHERE & WEATHER EFFECTS</h3>
+              <p>HTML5 Canvas Particle Emitter System</p>
+            </div>
+            <div class="credits-section">
+              <h3>STAGE CONCEPT</h3>
+              <p>The Kübler-Ross Model of Grief</p>
+            </div>
+            <div class="credits-section">
+              <h3>SPECIAL THANKS</h3>
+              <p>To the Playtesters & You, the Player</p>
+            </div>
+          </div>
+        </div>
+
+        <button id="restart-btn" class="cinematic-btn">JOURNEY AGAIN</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modular Scripts -->
+  <script src="audio.js"></script>
+  <script src="particles.js"></script>
+  <script src="physics.js"></script>
+  <script src="stages.js"></script>
+  <script src="shader.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

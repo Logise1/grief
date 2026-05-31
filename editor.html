@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>G R I E F — Level Editor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a0a;
+      --bg-panel: #141414;
+      --text-main: #f0f0f0;
+      --text-muted: #888888;
+      --accent: #e0a96d;
+      --accent-danger: #e74c3c;
+      --accent-success: #2ecc71;
+      --border: rgba(255, 255, 255, 0.08);
+      --glass: rgba(20, 20, 20, 0.65);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Top Bar */
+    header {
+      height: 65px;
+      background-color: var(--bg-panel);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+      z-index: 10;
+    }
+
+    .editor-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.35rem;
+      color: var(--text-main);
+    }
+
+    .top-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    select, input, button {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 8px 14px;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    select:focus, input:focus {
+      border-color: var(--accent);
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    button {
+      font-weight: 500;
+      letter-spacing: 0.08rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: var(--text-main);
+      color: var(--bg-dark);
+      border-color: var(--text-main);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
+    button.accent-btn {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    button.accent-btn:hover {
+      background-color: var(--accent);
+      color: var(--bg-dark);
+      box-shadow: 0 0 10px rgba(224, 169, 109, 0.2);
+    }
+
+    button.danger-btn {
+      border-color: var(--accent-danger);
+      color: var(--accent-danger);
+    }
+
+    button.danger-btn:hover {
+      background-color: var(--accent-danger);
+      color: #fff;
+    }
+
+    /* Main Container */
+    #main-container {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Left side editor workspace */
+    #editor-viewport {
+      flex: 1;
+      position: relative;
+      background-color: #0d0d0d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    #editor-canvas {
+      display: block;
+      cursor: grab;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+      background-color: #000;
+    }
+
+    #editor-canvas:active {
+      cursor: grabbing;
+    }
+
+    /* Viewport Instructions Overlay */
+    .viewport-overlay {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      padding: 10px 15px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      pointer-events: none;
+      line-height: 1.5;
+    }
+
+    /* Right side property inspector panel */
+    #inspector-panel {
+      width: 380px;
+      background-color: var(--bg-panel);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 5;
+    }
+
+    .panel-section {
+      padding: 22px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15rem;
+      color: var(--accent);
+      margin-bottom: 15px;
+      text-transform: uppercase;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05rem;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    /* List view style */
+    .object-list {
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .object-item {
+      padding: 8px 12px;
+      font-size: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .object-item:hover {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+
+    .object-item.selected {
+      background-color: rgba(224, 169, 109, 0.12);
+      border-left: 3px solid var(--accent);
+    }
+
+    .object-item .item-type {
+      color: var(--accent);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+    }
+
+    .checkbox-row {
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .checkbox-row input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .checkbox-row label {
+      font-size: 0.75rem;
+      cursor: pointer;
+      text-transform: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Bar -->
+  <header>
+    <div class="editor-title">G R I E F — LEVEL EDITOR</div>
+    <div class="top-controls">
+      <div class="form-group" style="margin-bottom: 0; flex-direction: row; align-items: center; gap: 8px;">
+        <label style="margin-bottom: 0;">STAGE:</label>
+        <select id="stage-select">
+          <option value="0">Intro (The Void)</option>
+          <option value="1">Stage 1 (Denial)</option>
+          <option value="2">Stage 2 (Anger)</option>
+          <option value="3">Stage 3 (Bargaining)</option>
+          <option value="4">Stage 4 (Depression)</option>
+          <option value="5">Stage 5 (Acceptance)</option>
+          <option value="6">Stage 6 (Hope)</option>
+        </select>
+      </div>
+      <button id="playtest-btn" class="accent-btn">PLAYTEST STAGE</button>
+      <button id="export-btn">EXPORT LEVELS.JSON</button>
+      <button id="reset-btn" class="danger-btn">RESET ALL</button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div id="main-container">
+    <!-- Visual Editor Workspace -->
+    <div id="editor-viewport">
+      <canvas id="editor-canvas"></canvas>
+      <div class="viewport-overlay">
+        <strong>CONTROLS:</strong><br>
+        • Left-Click + Drag: Move Selected Platform/Trigger<br>
+        • Right-Click + Drag: Pan Camera View<br>
+        • Click: Select Object<br>
+        • Arrow Keys: Nudge Selected Object by 5px (Shift + Arrows: 1px)
+      </div>
+    </div>
+
+    <!-- Right Properties Inspector -->
+    <div id="inspector-panel">
+      <!-- Stage Config -->
+      <div class="panel-section">
+        <div class="panel-section-title">Stage Parameters</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" id="stage-name-input">
+          </div>
+          <div class="form-group">
+            <label>Number Label</label>
+            <input type="text" id="stage-number-input">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" id="stage-desc-input">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Width</label>
+            <input type="number" id="stage-width-input">
+          </div>
+          <div class="form-group">
+            <label>Height</label>
+            <input type="number" id="stage-height-input">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Spawn X</label>
+            <input type="number" id="stage-spawnx-input">
+          </div>
+          <div class="form-group">
+            <label>Spawn Y</label>
+            <input type="number" id="stage-spawny-input">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Base Color</label>
+            <input type="text" id="stage-color-input">
+          </div>
+          <div class="form-group">
+            <label>Theme Overlay</label>
+            <input type="text" id="stage-theme-input">
+          </div>
+        </div>
+        <!-- Depression Special Config -->
+        <div class="form-row hidden" id="depression-config">
+          <div class="form-group">
+            <label>Water Level (Y)</label>
+            <input type="number" id="stage-water-level">
+          </div>
+          <div class="form-group">
+            <label>Water Rise Speed</label>
+            <input type="number" step="0.1" id="stage-water-speed">
+          </div>
+        </div>
+      </div>
+
+      <!-- Platforms Editor -->
+      <div class="panel-section">
+        <div class="panel-section-title">Platforms & Hazards</div>
+        <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+          <button id="add-plat-btn" style="flex: 1;">ADD PLATFORM</button>
+          <button id="del-plat-btn" class="danger-btn" style="flex: 1;">DELETE</button>
+        </div>
+        <div class="object-list" id="platform-list">
+          <!-- Dynamically filled -->
+        </div>
+
+        <div id="plat-properties" class="hidden" style="margin-top: 15px;">
+          <div class="form-group">
+            <label>Type</label>
+            <select id="plat-type">
+              <option value="solid">Solid Platform</option>
+              <option value="spike">Spike / Lava</option>
+              <option value="fake">Fake Wall</option>
+              <option value="glitch">Stage 1 Glitch</option>
+              <option value="breakable">Stage 2 Breakable</option>
+              <option value="energy">Stage 3 Gold Collectible</option>
+              <option value="portal">Exit Portal</option>
+              <option value="portal_in">Warp Portal Input</option>
+              <option value="checkpoint">Checkpoint Altar</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>X Coord</label>
+              <input type="number" id="plat-x">
+            </div>
+            <div class="form-group">
+              <label>Y Coord</label>
+              <input type="number" id="plat-y">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Width</label>
+              <input type="number" id="plat-w">
+            </div>
+            <div class="form-group">
+              <label>Height</label>
+              <input type="number" id="plat-h">
+            </div>
+          </div>
+          <!-- Warp Portal targets -->
+          <div class="form-row hidden" id="warp-targets">
+            <div class="form-group">
+              <label>Warp Target X</label>
+              <input type="number" id="plat-target-x">
+            </div>
+            <div class="form-group">
+              <label>Warp Target Y</label>
+              <input type="number" id="plat-target-y">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dialogue Triggers Editor -->
+      <div class="panel-section" style="border-bottom: none;">
+        <div class="panel-section-title">Dialogue Triggers</div>
+        <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+          <button id="add-trig-btn" style="flex: 1;">ADD TRIGGER</button>
+          <button id="del-trig-btn" class="danger-btn" style="flex: 1;">DELETE</button>
+        </div>
+        <div class="object-list" id="trigger-list">
+          <!-- Dynamically filled -->
+        </div>
+
+        <div id="trig-properties" class="hidden" style="margin-top: 15px;">
+          <div class="form-row">
+            <div class="form-group">
+              <label>X Coord</label>
+              <input type="number" id="trig-x">
+            </div>
+            <div class="form-group">
+              <label>Y Coord</label>
+              <input type="number" id="trig-y">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Width</label>
+              <input type="number" id="trig-w">
+            </div>
+            <div class="form-group">
+              <label>Height</label>
+              <input type="number" id="trig-h">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Monologue Text</label>
+            <input type="text" id="trig-text" placeholder="I feel empty...">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Grid Snapping Options -->
+      <div class="panel-section" style="border-top: 1px solid var(--border);">
+        <div class="form-group checkbox-row">
+          <input type="checkbox" id="snap-grid" checked>
+          <label for="snap-grid">Snap to 20px Grid</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Level Editor Application State
+    const Editor = {
+      levels: [],
+      currentStageIndex: 0,
+      
+      // Viewport Camera offset (for panning)
+      camera: { x: 0, y: 0 },
+      isPanning: false,
+      panStart: { x: 0, y: 0 },
+      camStart: { x: 0, y: 0 },
+
+      // Selection state
+      selectedPlatformIndex: null,
+      selectedTriggerIndex: null,
+      draggedObject: null, // { type: 'platform'|'trigger'|'spawn', index: number, offset: {x, y} }
+      
+      // Snapping option
+      snapToGrid: true,
+
+      canvas: null,
+      ctx: null,
+
+      init() {
+        this.canvas = document.getElementById('editor-canvas');
+        this.ctx = this.canvas.getContext('2d');
+
+        // Size editor canvas
+        this.resizeCanvas();
+        window.addEventListener('resize', () => {
+          this.resizeCanvas();
+          this.draw();
+        });
+
+        // Setup interaction event listeners
+        this.canvas.addEventListener('mousedown', e => this.onMouseDown(e));
+        this.canvas.addEventListener('mousemove', e => this.onMouseMove(e));
+        this.canvas.addEventListener('mouseup', () => this.onMouseUp());
+        this.canvas.addEventListener('contextmenu', e => e.preventDefault()); // disable right click menu on canvas
+
+        // Setup global key nudging
+        window.addEventListener('keydown', e => this.onKeyDown(e));
+
+        // Form listeners
+        document.getElementById('stage-select').addEventListener('change', e => {
+          this.switchStage(parseInt(e.target.value, 10));
+        });
+
+        // Metadata inputs
+        this.bindMetaInputs();
+
+        // Platform CRUD buttons
+        document.getElementById('add-plat-btn').addEventListener('click', () => this.addPlatform());
+        document.getElementById('del-plat-btn').addEventListener('click', () => this.deletePlatform());
+        this.bindPlatformInputs();
+
+        // Trigger CRUD buttons
+        document.getElementById('add-trig-btn').addEventListener('click', () => this.addTrigger());
+        document.getElementById('del-trig-btn').addEventListener('click', () => this.deleteTrigger());
+        this.bindTriggerInputs();
+
+        // Top control buttons
+        document.getElementById('playtest-btn').addEventListener('click', () => this.playtest());
+        document.getElementById('export-btn').addEventListener('click', () => this.exportJSON());
+        document.getElementById('reset-btn').addEventListener('click', () => this.resetDefaults());
+
+        // Grid snapping
+        document.getElementById('snap-grid').addEventListener('change', e => {
+          this.snapToGrid = e.target.checked;
+        });
+
+        // Load levels database
+        this.loadLevels();
+      },
+
+      resizeCanvas() {
+        // Keep canvas fitting inside the viewport wrapper
+        const wrapper = document.getElementById('editor-viewport');
+        this.canvas.width = wrapper.clientWidth - 40;
+        this.canvas.height = wrapper.clientHeight - 40;
+      },
+
+      loadLevels() {
+        const cached = localStorage.getItem('grief_edited_levels');
+        let loadPromise;
+        if (cached) {
+          loadPromise = Promise.resolve(JSON.parse(cached));
+        } else {
+          const antiCache = Date.now().toString() + Math.floor(Math.random() * 1000000000).toString();
+          loadPromise = fetch(`levels.json?anticache=${antiCache}`).then(r => r.json());
+        }
+
+        loadPromise.then(data => {
+          this.levels = data;
+          this.switchStage(0);
+        }).catch(err => {
+          console.error("Error preloading levels:", err);
+          alert("Failed to load levels.json. Make sure levels.json exists in your project.");
+        });
+      },
+
+      saveCache() {
+        localStorage.setItem('grief_edited_levels', JSON.stringify(this.levels));
+      },
+
+      switchStage(index) {
+        this.currentStageIndex = index;
+        document.getElementById('stage-select').value = index;
+        
+        // Reset selections
+        this.selectedPlatformIndex = null;
+        this.selectedTriggerIndex = null;
+        this.draggedObject = null;
+
+        // Reset camera center
+        const stage = this.levels[index];
+        this.camera.x = stage.spawnX - this.canvas.width / 2;
+        this.camera.y = stage.spawnY - this.canvas.height * 0.6;
+        this.clampCamera();
+
+        // Update form panels
+        this.updateStageMetaForm();
+        this.updatePlatformList();
+        this.updateTriggerList();
+
+        // Redraw
+        this.draw();
+      },
+
+      clampCamera() {
+        const stage = this.levels[this.currentStageIndex];
+        this.camera.x = Math.max(0, Math.min(stage.width - this.canvas.width, this.camera.x));
+        this.camera.y = Math.max(0, Math.min(stage.height - this.canvas.height, this.camera.y));
+      },
+
+      updateStageMetaForm() {
+        const stage = this.levels[this.currentStageIndex];
+        document.getElementById('stage-name-input').value = stage.name || '';
+        document.getElementById('stage-number-input').value = stage.number || '';
+        document.getElementById('stage-desc-input').value = stage.desc || '';
+        document.getElementById('stage-width-input').value = stage.width || 0;
+        document.getElementById('stage-height-input').value = stage.height || 0;
+        document.getElementById('stage-spawnx-input').value = stage.spawnX || 0;
+        document.getElementById('stage-spawny-input').value = stage.spawnY || 0;
+        document.getElementById('stage-color-input').value = stage.color || '';
+        document.getElementById('stage-theme-input').value = stage.themeColor || '';
+
+        // Depression water configs
+        const depPanel = document.getElementById('depression-config');
+        if (this.currentStageIndex === 4) {
+          depPanel.classList.remove('hidden');
+          document.getElementById('stage-water-level').value = stage.waterLevel || 650;
+          document.getElementById('stage-water-speed').value = stage.waterRiseSpeed || 0;
+        } else {
+          depPanel.classList.add('hidden');
+        }
+      },
+
+      bindMetaInputs() {
+        const updateMeta = (field, val, isFloat = false) => {
+          const stage = this.levels[this.currentStageIndex];
+          stage[field] = isFloat ? parseFloat(val) : (isNaN(parseInt(val, 10)) ? val : parseInt(val, 10));
+          this.saveCache();
+          this.draw();
+        };
+
+        document.getElementById('stage-name-input').addEventListener('input', e => updateMeta('name', e.target.value));
+        document.getElementById('stage-number-input').addEventListener('input', e => updateMeta('number', e.target.value));
+        document.getElementById('stage-desc-input').addEventListener('input', e => updateMeta('desc', e.target.value));
+        document.getElementById('stage-width-input').addEventListener('input', e => updateMeta('width', e.target.value));
+        document.getElementById('stage-height-input').addEventListener('input', e => updateMeta('height', e.target.value));
+        document.getElementById('stage-spawnx-input').addEventListener('input', e => updateMeta('spawnX', e.target.value));
+        document.getElementById('stage-spawny-input').addEventListener('input', e => updateMeta('spawnY', e.target.value));
+        document.getElementById('stage-color-input').addEventListener('input', e => updateMeta('color', e.target.value));
+        document.getElementById('stage-theme-input').addEventListener('input', e => updateMeta('themeColor', e.target.value));
+        
+        document.getElementById('stage-water-level').addEventListener('input', e => updateMeta('waterLevel', e.target.value));
+        document.getElementById('stage-water-speed').addEventListener('input', e => updateMeta('waterRiseSpeed', e.target.value, true));
+      },
+
+      // --- Platform Manager ---
+      updatePlatformList() {
+        const stage = this.levels[this.currentStageIndex];
+        const container = document.getElementById('platform-list');
+        container.innerHTML = '';
+
+        if (!stage.platforms) stage.platforms = [];
+
+        stage.platforms.forEach((p, idx) => {
+          const div = document.createElement('div');
+          div.className = `object-item ${idx === this.selectedPlatformIndex ? 'selected' : ''}`;
+          div.innerHTML = `
+            <span>Platform #${idx}</span>
+            <span class="item-type">${p.type}</span>
+          `;
+          div.addEventListener('click', () => this.selectPlatform(idx));
+          container.appendChild(div);
+        });
+
+        // Update properties panel visibility
+        const props = document.getElementById('plat-properties');
+        if (this.selectedPlatformIndex !== null) {
+          props.classList.remove('hidden');
+          const p = stage.platforms[this.selectedPlatformIndex];
+          document.getElementById('plat-type').value = p.type;
+          document.getElementById('plat-x').value = p.x;
+          document.getElementById('plat-y').value = p.y;
+          document.getElementById('plat-w').value = p.w;
+          document.getElementById('plat-h').value = p.h;
+
+          // Warp portal targets
+          const warpProps = document.getElementById('warp-targets');
+          if (p.type === 'portal_in') {
+            warpProps.classList.remove('hidden');
+            document.getElementById('plat-target-x').value = p.targetX || 0;
+            document.getElementById('plat-target-y').value = p.targetY || 0;
+          } else {
+            warpProps.classList.add('hidden');
+          }
+        } else {
+          props.classList.add('hidden');
+        }
+      },
+
+      selectPlatform(idx) {
+        this.selectedPlatformIndex = idx;
+        this.selectedTriggerIndex = null;
+        this.updatePlatformList();
+        this.updateTriggerList();
+        this.draw();
+      },
+
+      addPlatform() {
+        const stage = this.levels[this.currentStageIndex];
+        const centerWorldX = Math.round(this.camera.x + this.canvas.width / 2);
+        const centerWorldY = Math.round(this.camera.y + this.canvas.height / 2);
+
+        const newPlat = {
+          x: this.snapToGrid ? Math.round(centerWorldX / 20) * 20 : centerWorldX - 50,
+          y: this.snapToGrid ? Math.round(centerWorldY / 20) * 20 : centerWorldY - 10,
+          w: 100,
+          h: 20,
+          type: 'solid'
+        };
+
+        stage.platforms.push(newPlat);
+        this.saveCache();
+        this.selectPlatform(stage.platforms.length - 1);
+      },
+
+      deletePlatform() {
+        if (this.selectedPlatformIndex === null) return;
+        const stage = this.levels[this.currentStageIndex];
+        stage.platforms.splice(this.selectedPlatformIndex, 1);
+        this.selectedPlatformIndex = null;
+        this.saveCache();
+        this.updatePlatformList();
+        this.draw();
+      },
+
+      bindPlatformInputs() {
+        const updatePlat = (field, val) => {
+          if (this.selectedPlatformIndex === null) return;
+          const p = this.levels[this.currentStageIndex].platforms[this.selectedPlatformIndex];
+          p[field] = isNaN(parseInt(val, 10)) ? val : parseInt(val, 10);
+          this.saveCache();
+          this.draw();
+          
+          if (field === 'type') {
+            this.updatePlatformList(); // refresh list to show correct warp targets inputs
+          }
+        };
+
+        document.getElementById('plat-type').addEventListener('change', e => updatePlat('type', e.target.value));
+        document.getElementById('plat-x').addEventListener('input', e => updatePlat('x', e.target.value));
+        document.getElementById('plat-y').addEventListener('input', e => updatePlat('y', e.target.value));
+        document.getElementById('plat-w').addEventListener('input', e => updatePlat('w', e.target.value));
+        document.getElementById('plat-h').addEventListener('input', e => updatePlat('h', e.target.value));
+        
+        document.getElementById('plat-target-x').addEventListener('input', e => updatePlat('targetX', e.target.value));
+        document.getElementById('plat-target-y').addEventListener('input', e => updatePlat('targetY', e.target.value));
+      },
+
+      // --- Trigger Manager ---
+      updateTriggerList() {
+        const stage = this.levels[this.currentStageIndex];
+        const container = document.getElementById('trigger-list');
+        container.innerHTML = '';
+
+        if (!stage.triggers) stage.triggers = [];
+
+        stage.triggers.forEach((t, idx) => {
+          const div = document.createElement('div');
+          div.className = `object-item ${idx === this.selectedTriggerIndex ? 'selected' : ''}`;
+          div.innerHTML = `
+            <span>Trigger #${idx}</span>
+            <span class="item-type" style="color: var(--accent-danger)">text</span>
+          `;
+          div.addEventListener('click', () => this.selectTrigger(idx));
+          container.appendChild(div);
+        });
+
+        const props = document.getElementById('trig-properties');
+        if (this.selectedTriggerIndex !== null) {
+          props.classList.remove('hidden');
+          const t = stage.triggers[this.selectedTriggerIndex];
+          document.getElementById('trig-x').value = t.x;
+          document.getElementById('trig-y').value = t.y;
+          document.getElementById('trig-w').value = t.w;
+          document.getElementById('trig-h').value = t.h;
+          document.getElementById('trig-text').value = t.text || '';
+        } else {
+          props.classList.add('hidden');
+        }
+      },
+
+      selectTrigger(idx) {
+        this.selectedTriggerIndex = idx;
+        this.selectedPlatformIndex = null;
+        this.updateTriggerList();
+        this.updatePlatformList();
+        this.draw();
+      },
+
+      addTrigger() {
+        const stage = this.levels[this.currentStageIndex];
+        const centerWorldX = Math.round(this.camera.x + this.canvas.width / 2);
+        const centerWorldY = Math.round(this.camera.y + this.canvas.height / 2);
+
+        const newTrig = {
+          x: this.snapToGrid ? Math.round(centerWorldX / 20) * 20 : centerWorldX - 40,
+          y: this.snapToGrid ? Math.round(centerWorldY / 20) * 20 : centerWorldY - 100,
+          w: 80,
+          h: 200,
+          text: "New dialogue quote...",
+          triggered: false
+        };
+
+        stage.triggers.push(newTrig);
+        this.saveCache();
+        this.selectTrigger(stage.triggers.length - 1);
+      },
+
+      deleteTrigger() {
+        if (this.selectedTriggerIndex === null) return;
+        const stage = this.levels[this.currentStageIndex];
+        stage.triggers.splice(this.selectedTriggerIndex, 1);
+        this.selectedTriggerIndex = null;
+        this.saveCache();
+        this.updateTriggerList();
+        this.draw();
+      },
+
+      bindTriggerInputs() {
+        const updateTrig = (field, val) => {
+          if (this.selectedTriggerIndex === null) return;
+          const t = this.levels[this.currentStageIndex].triggers[this.selectedTriggerIndex];
+          t[field] = isNaN(parseInt(val, 10)) ? val : parseInt(val, 10);
+          this.saveCache();
+          this.draw();
+        };
+
+        document.getElementById('trig-x').addEventListener('input', e => updateTrig('x', e.target.value));
+        document.getElementById('trig-y').addEventListener('input', e => updateTrig('y', e.target.value));
+        document.getElementById('trig-w').addEventListener('input', e => updateTrig('w', e.target.value));
+        document.getElementById('trig-h').addEventListener('input', e => updateTrig('h', e.target.value));
+        document.getElementById('trig-text').addEventListener('input', e => updateTrig('text', e.target.value));
+      },
+
+      // --- Mouse Event Interactivity ---
+      onMouseDown(e) {
+        const rect = this.canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        // Determine if right click -> pan camera
+        if (e.button === 2) {
+          this.isPanning = true;
+          this.panStart.x = e.clientX;
+          this.panStart.y = e.clientY;
+          this.camStart.x = this.camera.x;
+          this.camStart.y = this.camera.y;
+          return;
+        }
+
+        // Left click -> Selection and drag detection
+        const worldX = mouseX + this.camera.x;
+        const worldY = mouseY + this.camera.y;
+        const stage = this.levels[this.currentStageIndex];
+
+        // 1. Check player spawn handle
+        const spawnDist = Math.hypot(worldX - stage.spawnX, worldY - stage.spawnY);
+        if (spawnDist < 20) {
+          this.draggedObject = { type: 'spawn', index: 0, offset: { x: worldX - stage.spawnX, y: worldY - stage.spawnY } };
+          this.selectedPlatformIndex = null;
+          this.selectedTriggerIndex = null;
+          this.updatePlatformList();
+          this.updateTriggerList();
+          this.draw();
+          return;
+        }
+
+        // 2. Check platforms (loop backwards to select top one)
+        for (let i = stage.platforms.length - 1; i >= 0; i--) {
+          const p = stage.platforms[i];
+          if (worldX >= p.x && worldX <= p.x + p.w && worldY >= p.y && worldY <= p.y + p.h) {
+            this.selectPlatform(i);
+            this.draggedObject = { type: 'platform', index: i, offset: { x: worldX - p.x, y: worldY - p.y } };
+            return;
+          }
+        }
+
+        // 3. Check triggers
+        for (let i = stage.triggers.length - 1; i >= 0; i--) {
+          const t = stage.triggers[i];
+          if (worldX >= t.x && worldX <= t.x + t.w && worldY >= t.y && worldY <= t.y + t.h) {
+            this.selectTrigger(i);
+            this.draggedObject = { type: 'trigger', index: i, offset: { x: worldX - t.x, y: worldY - t.y } };
+            return;
+          }
+        }
+
+        // Clicked empty space -> deselect all
+        this.selectedPlatformIndex = null;
+        this.selectedTriggerIndex = null;
+        this.updatePlatformList();
+        this.updateTriggerList();
+        this.draw();
+      },
+
+      onMouseMove(e) {
+        const rect = this.canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        // Panning camera
+        if (this.isPanning) {
+          const dx = e.clientX - this.panStart.x;
+          const dy = e.clientY - this.panStart.y;
+          this.camera.x = this.camStart.x - dx;
+          this.camera.y = this.camStart.y - dy;
+          this.clampCamera();
+          this.draw();
+          return;
+        }
+
+        // Dragging object
+        if (this.draggedObject) {
+          const worldX = mouseX + this.camera.x;
+          const worldY = mouseY + this.camera.y;
+          const stage = this.levels[this.currentStageIndex];
+
+          let targetX = worldX - this.draggedObject.offset.x;
+          let targetY = worldY - this.draggedObject.offset.y;
+
+          if (this.snapToGrid) {
+            targetX = Math.round(targetX / 20) * 20;
+            targetY = Math.round(targetY / 20) * 20;
+          }
+
+          if (this.draggedObject.type === 'spawn') {
+            stage.spawnX = Math.max(0, Math.min(stage.width, targetX));
+            stage.spawnY = Math.max(0, Math.min(stage.height, targetY));
+            document.getElementById('stage-spawnx-input').value = stage.spawnX;
+            document.getElementById('stage-spawny-input').value = stage.spawnY;
+          } else if (this.draggedObject.type === 'platform') {
+            const p = stage.platforms[this.draggedObject.index];
+            p.x = Math.max(0, Math.min(stage.width - p.w, targetX));
+            p.y = Math.max(0, Math.min(stage.height - p.h, targetY));
+            document.getElementById('plat-x').value = p.x;
+            document.getElementById('plat-y').value = p.y;
+          } else if (this.draggedObject.type === 'trigger') {
+            const t = stage.triggers[this.draggedObject.index];
+            t.x = Math.max(0, Math.min(stage.width - t.w, targetX));
+            t.y = Math.max(0, Math.min(stage.height - t.h, targetY));
+            document.getElementById('trig-x').value = t.x;
+            document.getElementById('trig-y').value = t.y;
+          }
+
+          this.saveCache();
+          this.draw();
+        }
+      },
+
+      onMouseUp() {
+        this.isPanning = false;
+        this.draggedObject = null;
+      },
+
+      onKeyDown(e) {
+        // Nudge with arrow keys if something is selected
+        const stage = this.levels[this.currentStageIndex];
+        const step = e.shiftKey ? 1 : 5;
+        let isNudged = false;
+
+        if (this.selectedPlatformIndex !== null) {
+          const p = stage.platforms[this.selectedPlatformIndex];
+          if (e.key === 'ArrowLeft') { p.x -= step; isNudged = true; }
+          if (e.key === 'ArrowRight') { p.x += step; isNudged = true; }
+          if (e.key === 'ArrowUp') { p.y -= step; isNudged = true; }
+          if (e.key === 'ArrowDown') { p.y += step; isNudged = true; }
+
+          if (isNudged) {
+            p.x = Math.max(0, Math.min(stage.width - p.w, p.x));
+            p.y = Math.max(0, Math.min(stage.height - p.h, p.y));
+            document.getElementById('plat-x').value = p.x;
+            document.getElementById('plat-y').value = p.y;
+          }
+        } else if (this.selectedTriggerIndex !== null) {
+          const t = stage.triggers[this.selectedTriggerIndex];
+          if (e.key === 'ArrowLeft') { t.x -= step; isNudged = true; }
+          if (e.key === 'ArrowRight') { t.x += step; isNudged = true; }
+          if (e.key === 'ArrowUp') { t.y -= step; isNudged = true; }
+          if (e.key === 'ArrowDown') { t.y += step; isNudged = true; }
+
+          if (isNudged) {
+            t.x = Math.max(0, Math.min(stage.width - t.w, t.x));
+            t.y = Math.max(0, Math.min(stage.height - t.h, t.y));
+            document.getElementById('trig-x').value = t.x;
+            document.getElementById('trig-y').value = t.y;
+          }
+        }
+
+        if (isNudged) {
+          e.preventDefault();
+          this.saveCache();
+          this.draw();
+        }
+      },
+
+      // --- Top Controls Action Handlers ---
+      playtest() {
+        this.saveCache();
+        window.open(`index.html?playtest=${this.currentStageIndex}`, '_blank');
+      },
+
+      exportJSON() {
+        // Strip temporary runtime variables before export
+        const cleanLevels = JSON.parse(JSON.stringify(this.levels));
+        cleanLevels.forEach(s => {
+          if (s.platforms) {
+            s.platforms.forEach(p => {
+              delete p.destroyed;
+              delete p.activated;
+              delete p.life;
+            });
+          }
+          if (s.triggers) {
+            s.triggers.forEach(t => {
+              t.triggered = false;
+            });
+          }
+        });
+
+        const jsonString = JSON.stringify(cleanLevels, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'levels.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      },
+
+      resetDefaults() {
+        if (confirm("Are you sure you want to reset all stages back to default configurations? This deletes all your custom level designs.")) {
+          localStorage.removeItem('grief_edited_levels');
+          this.loadLevels();
+        }
+      },
+
+      // --- Render Canvas loop ---
+      draw() {
+        if (this.levels.length === 0 || !this.levels[this.currentStageIndex]) return;
+
+        const stage = this.levels[this.currentStageIndex];
+        const ctx = this.ctx;
+
+        // Clear canvas
+        ctx.fillStyle = '#0a0a0a';
+        ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Draw coordinate grid in background relative to camera panning
+        ctx.save();
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.02)';
+        ctx.lineWidth = 1;
+        const gridGap = 80;
+        const startX = Math.floor(this.camera.x / gridGap) * gridGap;
+        const startY = Math.floor(this.camera.y / gridGap) * gridGap;
+        const endX = startX + this.canvas.width + gridGap;
+        const endY = startY + this.canvas.height + gridGap;
+
+        for (let x = startX; x < endX; x += gridGap) {
+          ctx.beginPath();
+          ctx.moveTo(x - this.camera.x, 0);
+          ctx.lineTo(x - this.camera.x, this.canvas.height);
+          ctx.stroke();
+        }
+        for (let y = startY; y < endY; y += gridGap) {
+          ctx.beginPath();
+          ctx.moveTo(0, y - this.camera.y);
+          ctx.lineTo(this.canvas.width, y - this.camera.y);
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        // Draw Stage Bounds limit outline
+        ctx.save();
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(-this.camera.x, -this.camera.y, stage.width, stage.height);
+        ctx.restore();
+
+        // Draw monologues dialogue trigger zones
+        if (stage.triggers) {
+          stage.triggers.forEach((t, idx) => {
+            const tx = t.x - this.camera.x;
+            const ty = t.y - this.camera.y;
+            const isSelected = idx === this.selectedTriggerIndex;
+
+            ctx.save();
+            ctx.strokeStyle = isSelected ? 'rgba(231, 76, 60, 0.8)' : 'rgba(224, 169, 109, 0.25)';
+            ctx.setLineDash([5, 5]);
+            ctx.lineWidth = isSelected ? 2.5 : 1.5;
+            ctx.fillStyle = isSelected ? 'rgba(224, 169, 109, 0.05)' : 'rgba(224, 169, 109, 0.01)';
+            
+            ctx.fillRect(tx, ty, t.w, t.h);
+            ctx.strokeRect(tx, ty, t.w, t.h);
+            
+            // Draw dialogue monologue snippets inside trigger box
+            ctx.fillStyle = isSelected ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.3)';
+            ctx.font = '9px monospace';
+            ctx.textAlign = 'center';
+            const cleanText = t.text.length > 25 ? t.text.substring(0, 22) + "..." : t.text;
+            ctx.fillText(cleanText, tx + t.w/2, ty + 20);
+            ctx.restore();
+          });
+        }
+
+        // Draw platforms
+        if (stage.platforms) {
+          stage.platforms.forEach((p, idx) => {
+            const px = p.x - this.camera.x;
+            const py = p.y - this.camera.y;
+            const isSelected = idx === this.selectedPlatformIndex;
+
+            ctx.save();
+
+            // Set colors based on platform type
+            if (p.type === 'solid') {
+              ctx.fillStyle = isSelected ? '#a2764b' : '#333333';
+              ctx.strokeStyle = isSelected ? '#e0a96d' : '#555555';
+            } else if (p.type === 'spike') {
+              ctx.fillStyle = isSelected ? '#c0392b' : '#7f1d1d';
+              ctx.strokeStyle = '#ef4444';
+            } else if (p.type === 'fake') {
+              ctx.fillStyle = isSelected ? '#4b6cb7' : '#1e3c72';
+              ctx.strokeStyle = '#3b82f6';
+            } else if (p.type === 'glitch') {
+              ctx.fillStyle = isSelected ? '#8e44ad' : '#6b21a8';
+              ctx.strokeStyle = '#a855f7';
+            } else if (p.type === 'breakable') {
+              ctx.fillStyle = isSelected ? '#b45309' : '#78350f';
+              ctx.strokeStyle = '#f59e0b';
+            } else if (p.type === 'energy') {
+              ctx.fillStyle = '#f59e0b';
+              ctx.strokeStyle = '#fff';
+            } else if (p.type === 'checkpoint') {
+              ctx.fillStyle = '#22c55e';
+              ctx.strokeStyle = '#fff';
+            } else if (p.type === 'portal') {
+              ctx.fillStyle = '#a855f7';
+              ctx.strokeStyle = '#fff';
+            } else if (p.type === 'portal_in') {
+              ctx.fillStyle = '#e0a96d';
+              ctx.strokeStyle = '#fff';
+            }
+
+            ctx.lineWidth = isSelected ? 3.0 : 1.5;
+            
+            if (p.type === 'spike') {
+              // Draw spikes visually
+              ctx.beginPath();
+              ctx.moveTo(px, py + p.h);
+              const numSpikes = Math.max(1, Math.floor(p.w / 20));
+              const sw = p.w / numSpikes;
+              for(let s = 0; s < numSpikes; s++) {
+                ctx.lineTo(px + s * sw, py + p.h);
+                ctx.lineTo(px + s * sw + sw/2, py);
+                ctx.lineTo(px + (s + 1) * sw, py + p.h);
+              }
+              ctx.closePath();
+              ctx.fill();
+              ctx.stroke();
+            } else if (p.type === 'energy') {
+              // Draw gold nodes as small diamond
+              ctx.beginPath();
+              ctx.moveTo(px + p.w/2, py);
+              ctx.lineTo(px + p.w, py + p.h/2);
+              ctx.lineTo(px + p.w/2, py + p.h);
+              ctx.lineTo(px, py + p.h/2);
+              ctx.closePath();
+              ctx.fill();
+              ctx.stroke();
+            } else if (p.type === 'checkpoint') {
+              // Draw checkpoint altar stick
+              ctx.fillStyle = '#444';
+              ctx.fillRect(px + p.w/2 - 3, py + p.h - 25, 6, 25);
+              ctx.beginPath();
+              ctx.arc(px + p.w/2, py + p.h - 30, 7, 0, Math.PI*2);
+              ctx.fillStyle = '#22c55e';
+              ctx.fill();
+            } else if (p.type === 'portal' || p.type === 'portal_in') {
+              // Draw swirling portal circle
+              ctx.beginPath();
+              ctx.ellipse(px + p.w/2, py + p.h/2, p.w/2, p.h/2, 0, 0, Math.PI*2);
+              ctx.fill();
+              ctx.stroke();
+            } else {
+              // Draw normal rectangle
+              ctx.fillRect(px, py, p.w, p.h);
+              ctx.strokeRect(px, py, p.w, p.h);
+            }
+
+            // Draw selection box indicator around item
+            if (isSelected) {
+              ctx.strokeStyle = '#fff';
+              ctx.lineWidth = 1.0;
+              ctx.setLineDash([2, 2]);
+              ctx.strokeRect(px - 4, py - 4, p.w + 8, p.h + 8);
+            }
+
+            // Draw line to warp destination if portal_in
+            if (p.type === 'portal_in' && p.targetX !== undefined) {
+              ctx.strokeStyle = 'rgba(224, 169, 109, 0.4)';
+              ctx.lineWidth = 1.5;
+              ctx.setLineDash([4, 4]);
+              ctx.beginPath();
+              ctx.moveTo(px + p.w/2, py + p.h/2);
+              ctx.lineTo(p.targetX - this.camera.x, p.targetY - this.camera.y);
+              ctx.stroke();
+              
+              // Draw small target bubble
+              ctx.beginPath();
+              ctx.arc(p.targetX - this.camera.x, p.targetY - this.camera.y, 6, 0, Math.PI*2);
+              ctx.fillStyle = '#e0a96d';
+              ctx.fill();
+            }
+
+            ctx.restore();
+          });
+        }
+
+        // Draw Player Spawn location handle
+        ctx.save();
+        const sx = stage.spawnX - this.camera.x;
+        const sy = stage.spawnY - this.camera.y;
+        ctx.strokeStyle = '#2ecc71';
+        ctx.lineWidth = 2.0;
+        ctx.fillStyle = 'rgba(46, 204, 113, 0.25)';
+        
+        // Draw green player box representation
+        ctx.fillRect(sx - 10, sy - 44, 20, 44);
+        ctx.strokeRect(sx - 10, sy - 44, 20, 44);
+        
+        // Draw crosshair spawn center
+        ctx.beginPath();
+        ctx.arc(sx, sy, 5, 0, Math.PI*2);
+        ctx.fillStyle = '#2ecc71';
+        ctx.fill();
+        
+        ctx.fillStyle = '#2ecc71';
+        ctx.font = '10px sans-serif';
+        ctx.fillText('SPAWN', sx - 18, sy - 52);
+        ctx.restore();
+
+        // Draw Depression Water Level line
+        if (this.currentStageIndex === 4 && stage.waterLevel !== undefined) {
+          ctx.save();
+          const wy = stage.waterLevel - this.camera.y;
+          ctx.strokeStyle = '#3498db';
+          ctx.lineWidth = 2.0;
+          ctx.setLineDash([6, 3]);
+          ctx.beginPath();
+          ctx.moveTo(0, wy);
+          ctx.lineTo(this.canvas.width, wy);
+          ctx.stroke();
+          
+          ctx.fillStyle = '#3498db';
+          ctx.font = '10px monospace';
+          ctx.fillText(`WATER LEVEL (${stage.waterLevel}px)`, 15, wy - 8);
+          ctx.restore();
+        }
+      }
+    };
+
+    window.addEventListener('DOMContentLoaded', () => Editor.init());
+  </script>
+</body>
+</html>

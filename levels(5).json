@@ -1,0 +1,1726 @@
+[
+  {
+    "name": "THE VOID",
+    "number": "INTRO",
+    "desc": "A quiet, heavy emptiness.",
+    "color": "#030303",
+    "themeColor": "rgba(255, 255, 255, 0.1)",
+    "width": 3200,
+    "height": 720,
+    "spawnX": 100,
+    "spawnY": 550,
+    "platforms": [
+      {
+        "x": 0,
+        "y": 600,
+        "w": 900,
+        "h": 120,
+        "type": "solid"
+      },
+      {
+        "x": 450,
+        "y": 550,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 1000,
+        "y": 600,
+        "w": 800,
+        "h": 120,
+        "type": "solid"
+      },
+      {
+        "x": 1400,
+        "y": 530,
+        "w": 120,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 1600,
+        "y": 470,
+        "w": 120,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 1850,
+        "y": 580,
+        "w": 800,
+        "h": 140,
+        "type": "solid"
+      },
+      {
+        "x": 2100,
+        "y": 530,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 2750,
+        "y": 580,
+        "w": 450,
+        "h": 140,
+        "type": "solid"
+      },
+      {
+        "x": 3050,
+        "y": 480,
+        "w": 60,
+        "h": 100,
+        "type": "portal"
+      }
+    ],
+    "triggers": [
+      {
+        "x": 200,
+        "y": 400,
+        "w": 100,
+        "h": 300,
+        "text": "I can't feel anything...",
+        "triggered": false
+      },
+      {
+        "x": 700,
+        "y": 400,
+        "w": 100,
+        "h": 300,
+        "text": "It's so quiet. Where am I?",
+        "triggered": false
+      },
+      {
+        "x": 1250,
+        "y": 350,
+        "w": 100,
+        "h": 300,
+        "text": "Wait... there is a faint glow in the distance.",
+        "triggered": false
+      },
+      {
+        "x": 1650,
+        "y": 350,
+        "w": 100,
+        "h": 300,
+        "text": "How did I end up here?",
+        "triggered": false
+      },
+      {
+        "x": 2200,
+        "y": 400,
+        "w": 100,
+        "h": 300,
+        "text": "The darkness is heavy, but the path keeps going.",
+        "triggered": false
+      },
+      {
+        "x": 2800,
+        "y": 400,
+        "w": 100,
+        "h": 300,
+        "text": "No... I have to find a way out of this.",
+        "triggered": false
+      }
+    ]
+  },
+  {
+    "name": "DENIAL",
+    "number": "STAGE 1",
+    "desc": "The mind constructs walls to shield itself from reality.",
+    "color": "#a0a0a0",
+    "themeColor": "rgba(160, 160, 160, 0.4)",
+    "width": 5400,
+    "height": 900,
+    "spawnX": 150,
+    "spawnY": 700,
+    "platforms": [
+      {
+        "x": 0,
+        "y": 780,
+        "w": 600,
+        "h": 120,
+        "type": "solid"
+      },
+      {
+        "x": 500,
+        "y": 730,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 700,
+        "y": 700,
+        "w": 150,
+        "h": 20,
+        "type": "glitch"
+      },
+      {
+        "x": 950,
+        "y": 640,
+        "w": 150,
+        "h": 20,
+        "type": "glitch"
+      },
+      {
+        "x": 1200,
+        "y": 580,
+        "w": 150,
+        "h": 20,
+        "type": "glitch"
+      },
+      {
+        "x": 1400,
+        "y": 720,
+        "w": 800,
+        "h": 180,
+        "type": "solid"
+      },
+      {
+        "x": 1400,
+        "y": 700,
+        "w": 800,
+        "h": 20,
+        "type": "spike"
+      },
+      {
+        "x": 1550,
+        "y": 500,
+        "w": 120,
+        "h": 20,
+        "type": "glitch"
+      },
+      {
+        "x": 1800,
+        "y": 420,
+        "w": 120,
+        "h": 20,
+        "type": "glitch"
+      },
+      {
+        "x": 2050,
+        "y": 480,
+        "w": 120,
+        "h": 20,
+        "type": "glitch"
+      },
+      {
+        "x": 2300,
+        "y": 670,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 2250,
+        "y": 720,
+        "w": 500,
+        "h": 180,
+        "type": "solid"
+      },
+      {
+        "x": 2800,
+        "y": 620,
+        "w": 300,
+        "h": 280,
+        "type": "fake"
+      },
+      {
+        "x": 2800,
+        "y": 740,
+        "w": 300,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 2900,
+        "y": 690,
+        "w": 50,
+        "h": 50,
+        "type": "spike"
+      },
+      {
+        "x": 3150,
+        "y": 640,
+        "w": 120,
+        "h": 20,
+        "type": "glitch"
+      },
+      {
+        "x": 3350,
+        "y": 580,
+        "w": 120,
+        "h": 20,
+        "type": "glitch"
+      },
+      {
+        "x": 3550,
+        "y": 670,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 3500,
+        "y": 720,
+        "w": 400,
+        "h": 180,
+        "type": "solid"
+      },
+      {
+        "x": 3950,
+        "y": 600,
+        "w": 150,
+        "h": 20,
+        "type": "glitch"
+      },
+      {
+        "x": 4150,
+        "y": 520,
+        "w": 150,
+        "h": 20,
+        "type": "glitch"
+      },
+      {
+        "x": 4400,
+        "y": 550,
+        "w": 800,
+        "h": 350,
+        "type": "solid"
+      },
+      {
+        "x": 4850,
+        "y": 450,
+        "w": 150,
+        "h": 20,
+        "type": "glitch"
+      },
+      {
+        "x": 5100,
+        "y": 380,
+        "w": 150,
+        "h": 20,
+        "type": "glitch"
+      },
+      {
+        "x": 5220,
+        "y": 450,
+        "w": 60,
+        "h": 100,
+        "type": "portal"
+      }
+    ],
+    "triggers": [
+      {
+        "x": 300,
+        "y": 500,
+        "w": 100,
+        "h": 300,
+        "text": "No... this isn't real. It's just a mistake.",
+        "triggered": false
+      },
+      {
+        "x": 850,
+        "y": 450,
+        "w": 100,
+        "h": 300,
+        "text": "Everything is fading... changing...",
+        "triggered": false
+      },
+      {
+        "x": 1600,
+        "y": 500,
+        "w": 100,
+        "h": 300,
+        "text": "They said you were gone. But they don't know you like I do.",
+        "triggered": false
+      },
+      {
+        "x": 2350,
+        "y": 450,
+        "w": 100,
+        "h": 300,
+        "text": "I can construct my own truth. It's safe here in my mind.",
+        "triggered": false
+      },
+      {
+        "x": 3600,
+        "y": 500,
+        "w": 100,
+        "h": 300,
+        "text": "You'll call. Or you'll walk through the door. Any minute now...",
+        "triggered": false
+      },
+      {
+        "x": 4500,
+        "y": 350,
+        "w": 100,
+        "h": 300,
+        "text": "If I just stay quiet, nothing changes. I can keep it this way.",
+        "triggered": false
+      }
+    ]
+  },
+  {
+    "name": "ANGER",
+    "number": "STAGE 2",
+    "desc": "Why me? It's not fair! The world burns with furious flame.",
+    "color": "#e74c3c",
+    "themeColor": "rgba(231, 76, 60, 0.5)",
+    "width": 5600,
+    "height": 1000,
+    "spawnX": 100,
+    "spawnY": 800,
+    "platforms": [
+      {
+        "x": 0,
+        "y": 880,
+        "w": 400,
+        "h": 120,
+        "type": "solid"
+      },
+      {
+        "x": 300,
+        "y": 830,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 400,
+        "y": 920,
+        "w": 650,
+        "h": 80,
+        "type": "spike"
+      },
+      {
+        "x": 460,
+        "y": 800,
+        "w": 80,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 660,
+        "y": 740,
+        "w": 80,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 860,
+        "y": 800,
+        "w": 80,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 570,
+        "y": 640,
+        "w": 30,
+        "h": 30,
+        "type": "spike"
+      },
+      {
+        "x": 760,
+        "y": 640,
+        "w": 30,
+        "h": 30,
+        "type": "spike"
+      },
+      {
+        "x": 1050,
+        "y": 850,
+        "w": 500,
+        "h": 150,
+        "type": "solid"
+      },
+      {
+        "x": 1150,
+        "y": 830,
+        "w": 100,
+        "h": 20,
+        "type": "spike"
+      },
+      {
+        "x": 1350,
+        "y": 650,
+        "w": 40,
+        "h": 200,
+        "type": "breakable"
+      },
+      {
+        "x": 1550,
+        "y": 800,
+        "w": 300,
+        "h": 200,
+        "type": "solid"
+      },
+      {
+        "x": 1600,
+        "y": 750,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 1850,
+        "y": 880,
+        "w": 400,
+        "h": 120,
+        "type": "solid"
+      },
+      {
+        "x": 1850,
+        "y": 860,
+        "w": 400,
+        "h": 20,
+        "type": "spike"
+      },
+      {
+        "x": 1920,
+        "y": 700,
+        "w": 50,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 2080,
+        "y": 650,
+        "w": 50,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 2000,
+        "y": 550,
+        "w": 40,
+        "h": 40,
+        "type": "spike"
+      },
+      {
+        "x": 2250,
+        "y": 500,
+        "w": 40,
+        "h": 250,
+        "type": "breakable"
+      },
+      {
+        "x": 2150,
+        "y": 780,
+        "w": 200,
+        "h": 220,
+        "type": "solid"
+      },
+      {
+        "x": 2450,
+        "y": 730,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 2350,
+        "y": 780,
+        "w": 300,
+        "h": 220,
+        "type": "solid"
+      },
+      {
+        "x": 2510,
+        "y": 250,
+        "w": 30,
+        "h": 430,
+        "type": "solid"
+      },
+      {
+        "x": 2640,
+        "y": 400,
+        "w": 40,
+        "h": 400,
+        "type": "solid"
+      },
+      {
+        "x": 2540,
+        "y": 600,
+        "w": 20,
+        "h": 20,
+        "type": "spike"
+      },
+      {
+        "x": 2620,
+        "y": 500,
+        "w": 20,
+        "h": 20,
+        "type": "spike"
+      },
+      {
+        "x": 2540,
+        "y": 400,
+        "w": 20,
+        "h": 20,
+        "type": "spike"
+      },
+      {
+        "x": 2640,
+        "y": 250,
+        "w": 40,
+        "h": 150,
+        "type": "breakable"
+      },
+      {
+        "x": 2730,
+        "y": 450,
+        "w": 600,
+        "h": 550,
+        "type": "solid"
+      },
+      {
+        "x": 2850,
+        "y": 430,
+        "w": 100,
+        "h": 20,
+        "type": "spike"
+      },
+      {
+        "x": 3050,
+        "y": 430,
+        "w": 100,
+        "h": 20,
+        "type": "spike"
+      },
+      {
+        "x": 2900,
+        "y": 200,
+        "w": 100,
+        "h": 180,
+        "type": "solid"
+      },
+      {
+        "x": 2900,
+        "y": 380,
+        "w": 100,
+        "h": 20,
+        "type": "spike"
+      },
+      {
+        "x": 3330,
+        "y": 450,
+        "w": 200,
+        "h": 550,
+        "type": "solid"
+      },
+      {
+        "x": 3400,
+        "y": 400,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 3530,
+        "y": 600,
+        "w": 600,
+        "h": 400,
+        "type": "solid"
+      },
+      {
+        "x": 3530,
+        "y": 580,
+        "w": 600,
+        "h": 20,
+        "type": "spike"
+      },
+      {
+        "x": 3650,
+        "y": 440,
+        "w": 60,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 3800,
+        "y": 380,
+        "w": 60,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 3950,
+        "y": 440,
+        "w": 60,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 3810,
+        "y": 220,
+        "w": 40,
+        "h": 40,
+        "type": "spike"
+      },
+      {
+        "x": 3880,
+        "y": 220,
+        "w": 40,
+        "h": 200,
+        "type": "breakable"
+      },
+      {
+        "x": 4130,
+        "y": 800,
+        "w": 40,
+        "h": 200,
+        "type": "breakable"
+      },
+      {
+        "x": 4250,
+        "y": 700,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 4200,
+        "y": 750,
+        "w": 500,
+        "h": 250,
+        "type": "solid"
+      },
+      {
+        "x": 4700,
+        "y": 850,
+        "w": 500,
+        "h": 150,
+        "type": "spike"
+      },
+      {
+        "x": 4800,
+        "y": 600,
+        "w": 100,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 4950,
+        "y": 500,
+        "w": 40,
+        "h": 150,
+        "type": "breakable"
+      },
+      {
+        "x": 5200,
+        "y": 450,
+        "w": 400,
+        "h": 550,
+        "type": "solid"
+      },
+      {
+        "x": 5450,
+        "y": 350,
+        "w": 60,
+        "h": 100,
+        "type": "portal"
+      }
+    ],
+    "triggers": [
+      {
+        "x": 200,
+        "y": 600,
+        "w": 100,
+        "h": 300,
+        "text": "It hurts... I want to break everything!",
+        "triggered": false
+      },
+      {
+        "x": 1100,
+        "y": 600,
+        "w": 100,
+        "h": 300,
+        "text": "DASH (Shift) to shatter the barriers. Get out of my way!",
+        "triggered": false
+      },
+      {
+        "x": 2580,
+        "y": 200,
+        "w": 100,
+        "h": 300,
+        "text": "Why did you leave me? Why did they let this happen?!",
+        "triggered": false
+      },
+      {
+        "x": 3400,
+        "y": 250,
+        "w": 100,
+        "h": 300,
+        "text": "It's not fair! The world keeps spinning as if nothing changed!",
+        "triggered": false
+      },
+      {
+        "x": 4300,
+        "y": 500,
+        "w": 100,
+        "h": 300,
+        "text": "I want to tear this place down. I want them to feel my burning pain.",
+        "triggered": false
+      },
+      {
+        "x": 5250,
+        "y": 250,
+        "w": 100,
+        "h": 300,
+        "text": "Let it all burn. Let me burn with it.",
+        "triggered": false
+      }
+    ]
+  },
+  {
+    "name": "BARGAINING",
+    "number": "STAGE 3",
+    "desc": "What if I did things differently? Can we make a deal?",
+    "color": "#e0a96d",
+    "themeColor": "rgba(224, 169, 109, 0.5)",
+    "width": 6000,
+    "height": 1000,
+    "spawnX": 120,
+    "spawnY": 800,
+    "platforms": [
+      {
+        "x": 0,
+        "y": 880,
+        "w": 400,
+        "h": 120,
+        "type": "solid"
+      },
+      {
+        "x": 300,
+        "y": 830,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 450,
+        "y": 700,
+        "w": 20,
+        "h": 20,
+        "type": "energy"
+      },
+      {
+        "x": 600,
+        "y": 650,
+        "w": 20,
+        "h": 20,
+        "type": "energy"
+      },
+      {
+        "x": 750,
+        "y": 700,
+        "w": 20,
+        "h": 20,
+        "type": "energy"
+      },
+      {
+        "x": 400,
+        "y": 920,
+        "w": 700,
+        "h": 80,
+        "type": "spike"
+      },
+      {
+        "x": 1100,
+        "y": 820,
+        "w": 300,
+        "h": 180,
+        "type": "solid"
+      },
+      {
+        "x": 1150,
+        "y": 770,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 1350,
+        "y": 740,
+        "w": 40,
+        "h": 80,
+        "type": "portal_in",
+        "targetX": 1600,
+        "targetY": 450
+      },
+      {
+        "x": 1580,
+        "y": 530,
+        "w": 80,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 1500,
+        "y": 380,
+        "w": 20,
+        "h": 20,
+        "type": "energy"
+      },
+      {
+        "x": 1750,
+        "y": 380,
+        "w": 20,
+        "h": 20,
+        "type": "energy"
+      },
+      {
+        "x": 1900,
+        "y": 480,
+        "w": 250,
+        "h": 520,
+        "type": "solid"
+      },
+      {
+        "x": 1950,
+        "y": 430,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 2150,
+        "y": 600,
+        "w": 1000,
+        "h": 400,
+        "type": "spike"
+      },
+      {
+        "x": 2300,
+        "y": 420,
+        "w": 40,
+        "h": 40,
+        "type": "spike"
+      },
+      {
+        "x": 2550,
+        "y": 380,
+        "w": 40,
+        "h": 40,
+        "type": "spike"
+      },
+      {
+        "x": 2800,
+        "y": 420,
+        "w": 40,
+        "h": 40,
+        "type": "spike"
+      },
+      {
+        "x": 2200,
+        "y": 350,
+        "w": 20,
+        "h": 20,
+        "type": "energy"
+      },
+      {
+        "x": 2450,
+        "y": 280,
+        "w": 20,
+        "h": 20,
+        "type": "energy"
+      },
+      {
+        "x": 2700,
+        "y": 280,
+        "w": 20,
+        "h": 20,
+        "type": "energy"
+      },
+      {
+        "x": 2950,
+        "y": 350,
+        "w": 20,
+        "h": 20,
+        "type": "energy"
+      },
+      {
+        "x": 3150,
+        "y": 550,
+        "w": 250,
+        "h": 450,
+        "type": "solid"
+      },
+      {
+        "x": 3250,
+        "y": 500,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 3450,
+        "y": 450,
+        "w": 20,
+        "h": 20,
+        "type": "energy"
+      },
+      {
+        "x": 3650,
+        "y": 400,
+        "w": 20,
+        "h": 20,
+        "type": "energy"
+      },
+      {
+        "x": 3800,
+        "y": 550,
+        "w": 150,
+        "h": 450,
+        "type": "solid"
+      },
+      {
+        "x": 3850,
+        "y": 500,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 3950,
+        "y": 920,
+        "w": 800,
+        "h": 80,
+        "type": "spike"
+      },
+      {
+        "x": 4200,
+        "y": 420,
+        "w": 40,
+        "h": 40,
+        "type": "spike"
+      },
+      {
+        "x": 4400,
+        "y": 350,
+        "w": 20,
+        "h": 20,
+        "type": "energy"
+      },
+      {
+        "x": 4550,
+        "y": 300,
+        "w": 20,
+        "h": 20,
+        "type": "energy"
+      },
+      {
+        "x": 4750,
+        "y": 550,
+        "w": 250,
+        "h": 450,
+        "type": "solid"
+      },
+      {
+        "x": 4850,
+        "y": 500,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 5100,
+        "y": 400,
+        "w": 40,
+        "h": 80,
+        "type": "portal_in",
+        "targetX": 5400,
+        "targetY": 350
+      },
+      {
+        "x": 5350,
+        "y": 450,
+        "w": 100,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 5550,
+        "y": 550,
+        "w": 450,
+        "h": 450,
+        "type": "solid"
+      },
+      {
+        "x": 5750,
+        "y": 450,
+        "w": 60,
+        "h": 100,
+        "type": "portal"
+      }
+    ],
+    "triggers": [
+      {
+        "x": 200,
+        "y": 600,
+        "w": 100,
+        "h": 300,
+        "text": "Maybe I can undo it... make a trade.",
+        "triggered": false
+      },
+      {
+        "x": 500,
+        "y": 600,
+        "w": 100,
+        "h": 300,
+        "text": "Collect GOLD. Press 'E' to build a temporary path.",
+        "triggered": false
+      },
+      {
+        "x": 1250,
+        "y": 600,
+        "w": 100,
+        "h": 300,
+        "text": "Step into the vortex. Space bends to my wishes.",
+        "triggered": false
+      },
+      {
+        "x": 2000,
+        "y": 300,
+        "w": 100,
+        "h": 300,
+        "text": "If I trade my energy, my memories, can we go back?",
+        "triggered": false
+      },
+      {
+        "x": 3300,
+        "y": 300,
+        "w": 100,
+        "h": 300,
+        "text": "I will be better. I will change. Just rewrite this day, please.",
+        "triggered": false
+      },
+      {
+        "x": 3880,
+        "y": 350,
+        "w": 100,
+        "h": 300,
+        "text": "If I give everything... will you stay?",
+        "triggered": false
+      },
+      {
+        "x": 4850,
+        "y": 350,
+        "w": 100,
+        "h": 300,
+        "text": "Why is it never enough? The deals crumble...",
+        "triggered": false
+      },
+      {
+        "x": 5600,
+        "y": 300,
+        "w": 100,
+        "h": 300,
+        "text": "Just a little more... please...",
+        "triggered": false
+      }
+    ]
+  },
+  {
+    "name": "DEPRESSION",
+    "number": "STAGE 4",
+    "desc": "A heavy, cold rain. A slow, exhausting crawl through the dark.",
+    "color": "#3498db",
+    "themeColor": "rgba(52, 152, 219, 0.4)",
+    "width": 6400,
+    "height": 720,
+    "spawnX": 120,
+    "spawnY": 500,
+    "waterLevel": 650,
+    "waterRiseSpeed": 0,
+    "platforms": [
+      {
+        "x": 0,
+        "y": 580,
+        "w": 700,
+        "h": 140,
+        "type": "solid"
+      },
+      {
+        "x": 500,
+        "y": 530,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 800,
+        "y": 580,
+        "w": 500,
+        "h": 140,
+        "type": "solid"
+      },
+      {
+        "x": 1420,
+        "y": 520,
+        "w": 120,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 1650,
+        "y": 580,
+        "w": 600,
+        "h": 140,
+        "type": "solid"
+      },
+      {
+        "x": 1800,
+        "y": 530,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 2350,
+        "y": 540,
+        "w": 100,
+        "h": 180,
+        "type": "solid"
+      },
+      {
+        "x": 2550,
+        "y": 500,
+        "w": 100,
+        "h": 220,
+        "type": "solid"
+      },
+      {
+        "x": 2750,
+        "y": 540,
+        "w": 100,
+        "h": 180,
+        "type": "solid"
+      },
+      {
+        "x": 2950,
+        "y": 580,
+        "w": 350,
+        "h": 140,
+        "type": "solid"
+      },
+      {
+        "x": 3200,
+        "y": 530,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 3400,
+        "y": 560,
+        "w": 80,
+        "h": 160,
+        "type": "solid"
+      },
+      {
+        "x": 3550,
+        "y": 540,
+        "w": 80,
+        "h": 180,
+        "type": "solid"
+      },
+      {
+        "x": 3700,
+        "y": 560,
+        "w": 80,
+        "h": 160,
+        "type": "solid"
+      },
+      {
+        "x": 3850,
+        "y": 580,
+        "w": 350,
+        "h": 140,
+        "type": "solid"
+      },
+      {
+        "x": 3950,
+        "y": 530,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 4300,
+        "y": 480,
+        "w": 150,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 4550,
+        "y": 420,
+        "w": 150,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 4800,
+        "y": 500,
+        "w": 300,
+        "h": 220,
+        "type": "solid"
+      },
+      {
+        "x": 4900,
+        "y": 450,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 5200,
+        "y": 440,
+        "w": 120,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 5450,
+        "y": 500,
+        "w": 120,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 5700,
+        "y": 580,
+        "w": 700,
+        "h": 140,
+        "type": "solid"
+      },
+      {
+        "x": 6200,
+        "y": 480,
+        "w": 60,
+        "h": 100,
+        "type": "portal"
+      }
+    ],
+    "triggers": [
+      {
+        "x": 150,
+        "y": 300,
+        "w": 100,
+        "h": 300,
+        "text": "It's so heavy... the weight is crushing.",
+        "triggered": false
+      },
+      {
+        "x": 1000,
+        "y": 300,
+        "w": 100,
+        "h": 300,
+        "text": "Why bother moving forward? Everything feels cold.",
+        "triggered": false
+      },
+      {
+        "x": 2000,
+        "y": 300,
+        "w": 100,
+        "h": 300,
+        "text": "I just... want to lie down. The silence is too loud.",
+        "triggered": false
+      },
+      {
+        "x": 3250,
+        "y": 350,
+        "w": 100,
+        "h": 300,
+        "text": "Everything is grey. The colors aren't coming back.",
+        "triggered": false
+      },
+      {
+        "x": 4000,
+        "y": 350,
+        "w": 100,
+        "h": 300,
+        "text": "Maybe there is no point in moving.",
+        "triggered": false
+      },
+      {
+        "x": 4950,
+        "y": 350,
+        "w": 100,
+        "h": 300,
+        "text": "No one can reach me here. I am completely alone.",
+        "triggered": false
+      },
+      {
+        "x": 5800,
+        "y": 350,
+        "w": 100,
+        "h": 300,
+        "text": "Just let the rain fall.",
+        "triggered": false
+      }
+    ]
+  },
+  {
+    "name": "ACCEPTANCE",
+    "number": "STAGE 5",
+    "desc": "The clouds break. The light is warm, and you can finally breathe.",
+    "color": "#f1c40f",
+    "themeColor": "rgba(241, 196, 15, 0.4)",
+    "width": 6200,
+    "height": 1000,
+    "spawnX": 100,
+    "spawnY": 800,
+    "platforms": [
+      {
+        "x": 0,
+        "y": 880,
+        "w": 400,
+        "h": 120,
+        "type": "solid"
+      },
+      {
+        "x": 300,
+        "y": 830,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 500,
+        "y": 780,
+        "w": 150,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 750,
+        "y": 700,
+        "w": 150,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 1000,
+        "y": 620,
+        "w": 150,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 1250,
+        "y": 550,
+        "w": 300,
+        "h": 450,
+        "type": "solid"
+      },
+      {
+        "x": 1350,
+        "y": 500,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 1650,
+        "y": 480,
+        "w": 180,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 1950,
+        "y": 420,
+        "w": 180,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 2250,
+        "y": 360,
+        "w": 180,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 2500,
+        "y": 280,
+        "w": 300,
+        "h": 720,
+        "type": "solid"
+      },
+      {
+        "x": 2700,
+        "y": 230,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 3020,
+        "y": 150,
+        "w": 40,
+        "h": 180,
+        "type": "solid"
+      },
+      {
+        "x": 3020,
+        "y": 330,
+        "w": 40,
+        "h": 20,
+        "type": "spike"
+      },
+      {
+        "x": 3180,
+        "y": 400,
+        "w": 120,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 3230,
+        "y": 330,
+        "w": 20,
+        "h": 20,
+        "type": "energy"
+      },
+      {
+        "x": 3350,
+        "y": 200,
+        "w": 40,
+        "h": 200,
+        "type": "solid"
+      },
+      {
+        "x": 3350,
+        "y": 400,
+        "w": 40,
+        "h": 20,
+        "type": "spike"
+      },
+      {
+        "x": 3450,
+        "y": 480,
+        "w": 250,
+        "h": 520,
+        "type": "solid"
+      },
+      {
+        "x": 3600,
+        "y": 430,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 3950,
+        "y": 400,
+        "w": 150,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 4200,
+        "y": 350,
+        "w": 150,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 4450,
+        "y": 420,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 4400,
+        "y": 470,
+        "w": 300,
+        "h": 530,
+        "type": "solid"
+      },
+      {
+        "x": 4800,
+        "y": 380,
+        "w": 120,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 5050,
+        "y": 300,
+        "w": 120,
+        "h": 20,
+        "type": "solid"
+      },
+      {
+        "x": 5300,
+        "y": 260,
+        "w": 900,
+        "h": 740,
+        "type": "solid"
+      },
+      {
+        "x": 5550,
+        "y": 210,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 5950,
+        "y": 160,
+        "w": 60,
+        "h": 100,
+        "type": "portal"
+      }
+    ],
+    "triggers": [
+      {
+        "x": 200,
+        "y": 600,
+        "w": 100,
+        "h": 300,
+        "text": "The pain hasn't gone... but I can carry it now.",
+        "triggered": false
+      },
+      {
+        "x": 1100,
+        "y": 400,
+        "w": 100,
+        "h": 300,
+        "text": "Hold JUMP (W/Space) in mid-air to float/glide.",
+        "triggered": false
+      },
+      {
+        "x": 2100,
+        "y": 200,
+        "w": 100,
+        "h": 300,
+        "text": "It is time to move forward. Thank you for the memories.",
+        "triggered": false
+      },
+      {
+        "x": 2900,
+        "y": 100,
+        "w": 100,
+        "h": 300,
+        "text": "I can feel the warmth. I am ready to see the sun.",
+        "triggered": false
+      },
+      {
+        "x": 3650,
+        "y": 300,
+        "w": 100,
+        "h": 300,
+        "text": "I step forward. Not to forget you, but to live again.",
+        "triggered": false
+      },
+      {
+        "x": 4550,
+        "y": 300,
+        "w": 100,
+        "h": 300,
+        "text": "It's peaceful here. I can finally see the way.",
+        "triggered": false
+      },
+      {
+        "x": 5400,
+        "y": 100,
+        "w": 100,
+        "h": 300,
+        "text": "The storm has passed. It's time to step forward into the light.",
+        "triggered": false
+      }
+    ]
+  },
+  {
+    "name": "HOPE",
+    "number": "EPILOGUE",
+    "desc": "A path opens into the tomorrow.",
+    "color": "#2ecc71",
+    "themeColor": "rgba(46, 204, 113, 0.4)",
+    "width": 3000,
+    "height": 720,
+    "spawnX": 100,
+    "spawnY": 550,
+    "platforms": [
+      {
+        "x": 0,
+        "y": 600,
+        "w": 3000,
+        "h": 120,
+        "type": "solid"
+      },
+      {
+        "x": 450,
+        "y": 550,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 1500,
+        "y": 550,
+        "w": 40,
+        "h": 50,
+        "type": "checkpoint"
+      },
+      {
+        "x": 2700,
+        "y": 400,
+        "w": 80,
+        "h": 200,
+        "type": "portal"
+      }
+    ],
+    "triggers": [
+      {
+        "x": 200,
+        "y": 300,
+        "w": 100,
+        "h": 300,
+        "text": "I can see the grass growing.",
+        "triggered": false
+      },
+      {
+        "x": 800,
+        "y": 300,
+        "w": 100,
+        "h": 300,
+        "text": "Life goes on. We carry the memories in our hearts.",
+        "triggered": false
+      },
+      {
+        "x": 1400,
+        "y": 300,
+        "w": 100,
+        "h": 300,
+        "text": "I still feel the empty space beside me.",
+        "triggered": false
+      },
+      {
+        "x": 2000,
+        "y": 300,
+        "w": 100,
+        "h": 300,
+        "text": "But the path goes on, and there is light on the horizon.",
+        "triggered": false
+      },
+      {
+        "x": 2500,
+        "y": 300,
+        "w": 100,
+        "h": 300,
+        "text": "And we step into tomorrow.",
+        "triggered": false
+      }
+    ]
+  }
+]
