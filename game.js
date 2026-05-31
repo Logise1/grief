@@ -48,6 +48,11 @@ const Game = {
   // Animation trails
   playerTrails: [],
 
+  // Jumpscare state
+  jumpscareTimer: 0,
+  jumpscareActive: false,
+  jumpscareTriggered: false,
+
   init() {
     this.canvas = document.getElementById('game-canvas');
     this.ctx = this.canvas.getContext('2d');
@@ -229,6 +234,9 @@ const Game = {
   loadStage(stageIndex) {
     this.inDreamCutscene = false;
     this.dreamState = 0;
+    this.jumpscareTimer = 0;
+    this.jumpscareActive = false;
+    this.jumpscareTriggered = false;
     this.isTransitioning = false;
     this.particles.clear();
     const stage = STAGES[stageIndex];
@@ -559,6 +567,22 @@ const Game = {
           this.isCutscene = true; // Stop player inputs so they slide/fall to a stop
           break;
         }
+      }
+    }
+
+    // JUMPSCARE: Depression stage — triggers once when deep in the darkness
+    if (this.currentStage === 4 && !this.jumpscareTriggered && this.player.x > 3100) {
+      this.jumpscareTriggered = true;
+      this.jumpscareActive = true;
+      this.jumpscareTimer = 26; // ~0.43s at 60fps
+      this.triggerScreenshake(22);
+      AudioEngine.playSFX('jumpscare_static');
+    }
+    if (this.jumpscareActive) {
+      this.jumpscareTimer -= dt;
+      if (this.jumpscareTimer <= 0) {
+        this.jumpscareActive = false;
+        this.jumpscareTimer = 0;
       }
     }
 
@@ -1106,6 +1130,114 @@ const Game = {
       this.ctx.fillStyle = `rgba(255, 255, 255, ${0.4 + (this.lightningFlash / 6) * 0.6})`;
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.restore();
+    }
+
+    // DRAW JUMPSCARE OVERLAY
+    if (this.jumpscareActive && this.jumpscareTimer > 0) {
+      const progress = this.jumpscareTimer / 26; // 1.0 at start → 0.0 at end
+      const W = this.canvas.width;
+      const H = this.canvas.height;
+      const ctx = this.ctx;
+      ctx.save();
+
+      // Red-white full screen flash — strongest at start, fades fast
+      const flashAlpha = Math.min(1.0, progress * 1.6);
+      ctx.fillStyle = `rgba(255, 10, 10, ${flashAlpha * 0.55})`;
+      ctx.fillRect(0, 0, W, H);
+
+      // Draw distorted screaming face on the canvas
+      const cx = W / 2 + (Math.random() - 0.5) * 18 * progress;
+      const cy = H / 2 + (Math.random() - 0.5) * 14 * progress;
+      const scale = 0.72 + progress * 0.45;
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(scale, scale);
+      ctx.globalAlpha = Math.min(1.0, progress * 2.5);
+
+      // Head oval
+      ctx.shadowBlur = 60 * progress;
+      ctx.shadowColor = 'rgba(255, 40, 0, 0.9)';
+      ctx.fillStyle = '#c8a090';
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 140, 175, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Dark sunken eyes
+      ctx.fillStyle = '#080808';
+      ctx.beginPath();
+      ctx.ellipse(-50, -40, 38, 28, 0, 0, Math.PI * 2);
+      ctx.ellipse(50, -40, 38, 28, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Glowing red pupils
+      ctx.fillStyle = `rgba(255, 0, 0, ${0.85 * progress})`;
+      ctx.beginPath();
+      ctx.arc(-50, -38, 14, 0, Math.PI * 2);
+      ctx.arc(50, -38, 14, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Screaming mouth — wide open oval
+      ctx.fillStyle = '#0a0000';
+      ctx.beginPath();
+      ctx.ellipse(0, 70, 70, 90, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Inner mouth darkness
+      ctx.fillStyle = '#1a0000';
+      ctx.beginPath();
+      ctx.ellipse(0, 80, 45, 60, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Jagged teeth top row
+      ctx.fillStyle = '#d8d0c0';
+      for (let i = -3; i <= 3; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i * 18 - 9, 12);
+        ctx.lineTo(i * 18, 55);
+        ctx.lineTo(i * 18 + 9, 12);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // Jagged teeth bottom row
+      for (let i = -3; i <= 3; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i * 18 - 9, 130);
+        ctx.lineTo(i * 18, 88);
+        ctx.lineTo(i * 18 + 9, 130);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // Nose (two dark nostrils)
+      ctx.fillStyle = 'rgba(80, 40, 20, 0.8)';
+      ctx.beginPath();
+      ctx.ellipse(-18, 25, 10, 14, -0.3, 0, Math.PI * 2);
+      ctx.ellipse(18, 25, 10, 14, 0.3, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Horizontal glitch bars across the face
+      ctx.globalAlpha = 0.35 * progress;
+      for (let g = 0; g < 4; g++) {
+        const gy = -175 + Math.random() * 350;
+        const gw = 100 + Math.random() * 200;
+        ctx.fillStyle = `rgba(255, ${Math.random() * 80 | 0}, ${Math.random() * 80 | 0}, 0.7)`;
+        ctx.fillRect(-gw / 2 + (Math.random() - 0.5) * 60, gy, gw, 8 + Math.random() * 12);
+      }
+
+      ctx.restore();
+
+      // Static noise scanlines across full screen
+      ctx.globalAlpha = 0.18 * progress;
+      for (let s = 0; s < H; s += 4) {
+        if (Math.random() > 0.5) {
+          ctx.fillStyle = `rgba(255,255,255,${Math.random() * 0.25})`;
+          ctx.fillRect(0, s, W, 2);
+        }
+      }
+
+      ctx.restore();
     }
 
     // RENDER WEBGL SHADER EFFECTS

@@ -371,6 +371,99 @@ const AudioEngine = {
         rumbleSource.stop(nowTime + 2.0);
         break;
       }
+      case 'jumpscare_static': {
+        const jNow = this.ctx.currentTime;
+
+        // Route directly to destination, bypassing master volume attenuation
+        const jDirectOut = this.ctx.createGain();
+        jDirectOut.gain.setValueAtTime(1.0, jNow);
+        jDirectOut.connect(this.ctx.destination);
+
+        // 1. MASSIVE white noise burst — wall of full-spectrum static
+        const jBufSize = this.ctx.sampleRate * 0.65;
+        const jBuf = this.ctx.createBuffer(2, jBufSize, this.ctx.sampleRate); // stereo
+        const jDataL = jBuf.getChannelData(0);
+        const jDataR = jBuf.getChannelData(1);
+        for (let i = 0; i < jBufSize; i++) {
+          jDataL[i] = Math.random() * 2 - 1;
+          jDataR[i] = Math.random() * 2 - 1;
+        }
+        const jNoise = this.ctx.createBufferSource();
+        jNoise.buffer = jBuf;
+
+        const jNoiseFilter = this.ctx.createBiquadFilter();
+        jNoiseFilter.type = 'bandpass';
+        jNoiseFilter.frequency.setValueAtTime(3200, jNow);
+        jNoiseFilter.frequency.exponentialRampToValueAtTime(600, jNow + 0.5);
+        jNoiseFilter.Q.setValueAtTime(0.5, jNow);
+
+        const jNoiseGain = this.ctx.createGain();
+        jNoiseGain.gain.setValueAtTime(0.0, jNow);
+        jNoiseGain.gain.linearRampToValueAtTime(3.5, jNow + 0.008); // instant SLAM
+        jNoiseGain.gain.exponentialRampToValueAtTime(0.001, jNow + 0.6);
+
+        jNoise.connect(jNoiseFilter);
+        jNoiseFilter.connect(jNoiseGain);
+        jNoiseGain.connect(jDirectOut);
+        jNoiseGain.connect(this.masterVolume); // double feed for extra volume
+        jNoise.start(jNow);
+        jNoise.stop(jNow + 0.65);
+
+        // 2. Sub-bass body impact — room-shaking boom
+        const jSub = this.ctx.createOscillator();
+        const jSubGain = this.ctx.createGain();
+        jSub.type = 'sine';
+        jSub.frequency.setValueAtTime(60, jNow);
+        jSub.frequency.exponentialRampToValueAtTime(15, jNow + 0.4);
+        jSubGain.gain.setValueAtTime(0.0, jNow);
+        jSubGain.gain.linearRampToValueAtTime(2.8, jNow + 0.008);
+        jSubGain.gain.exponentialRampToValueAtTime(0.001, jNow + 0.5);
+        jSub.connect(jSubGain);
+        jSubGain.connect(jDirectOut);
+        jSubGain.connect(this.masterVolume);
+        jSub.start(jNow);
+        jSub.stop(jNow + 0.5);
+
+        // 3. Screaming pitch sweep — piercing shriek
+        const jScream = this.ctx.createOscillator();
+        const jScreamGain = this.ctx.createGain();
+        jScream.type = 'sawtooth';
+        jScream.frequency.setValueAtTime(280, jNow);
+        jScream.frequency.exponentialRampToValueAtTime(2400, jNow + 0.08); // rapid shriek rise
+        jScream.frequency.exponentialRampToValueAtTime(60, jNow + 0.5);
+
+        const jScreamFilter = this.ctx.createBiquadFilter();
+        jScreamFilter.type = 'bandpass';
+        jScreamFilter.frequency.setValueAtTime(1200, jNow);
+        jScreamFilter.Q.setValueAtTime(1.5, jNow);
+
+        jScreamGain.gain.setValueAtTime(0.0, jNow);
+        jScreamGain.gain.linearRampToValueAtTime(1.8, jNow + 0.01);
+        jScreamGain.gain.exponentialRampToValueAtTime(0.001, jNow + 0.52);
+
+        jScream.connect(jScreamFilter);
+        jScreamFilter.connect(jScreamGain);
+        jScreamGain.connect(jDirectOut);
+        jScreamGain.connect(this.masterVolume);
+        jScream.start(jNow);
+        jScream.stop(jNow + 0.55);
+
+        // 4. High-frequency piercing whine — the real screamer
+        const jWhine = this.ctx.createOscillator();
+        const jWhineGain = this.ctx.createGain();
+        jWhine.type = 'square';
+        jWhine.frequency.setValueAtTime(4200, jNow);
+        jWhine.frequency.exponentialRampToValueAtTime(800, jNow + 0.4);
+        jWhineGain.gain.setValueAtTime(0.0, jNow);
+        jWhineGain.gain.linearRampToValueAtTime(1.2, jNow + 0.01);
+        jWhineGain.gain.exponentialRampToValueAtTime(0.001, jNow + 0.45);
+        jWhine.connect(jWhineGain);
+        jWhineGain.connect(jDirectOut);
+        jWhine.start(jNow);
+        jWhine.stop(jNow + 0.5);
+
+        break;
+      }
     }
   },
 
